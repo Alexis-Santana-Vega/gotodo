@@ -42,10 +42,8 @@ func (t Task) String() string {
 // IsValid verifica que la tarea contenga datos mínimos obligatorios y válidos
 // Retorna true si el título no está vacío y la prioridad corresponde a uno de
 // los valores definidos (PriorityLow, PriorityMedium o PriorityHigh).
-func (t Task) IsValid() bool {
-	// Valida que el título tenga contenido y la prioridad sea una de las permitidas
-	return t.Title != "" && (t.Priority == PriorityLow ||
-		t.Priority == PriorityMedium || t.Priority == PriorityHigh)
+func (p Priority) IsValid() bool {
+	return p == PriorityLow || p == PriorityMedium || p == PriorityHigh
 }
 
 // Complete marca la tarea como completada

@@ -1,6 +1,8 @@
 package todo
 
-import "testing"
+import (
+	"testing"
+)
 
 // TestAdd verifica que la creación de tareas válidas asigne correctamente
 // los identificadores secuenciales, el estado inicial y actualice el Store
@@ -67,6 +69,18 @@ func TestDelete(t *testing.T) {
 	}
 }
 
+// TestSearch asegura el correcto comportamiento del filtro de búsqueda por query
+func TestSearch(t *testing.T) {
+	s := New()
+	s.Add("Red", PriorityLow)
+	s.Add("Blue", PriorityHigh)
+	s.Add("Yellow", PriorityMedium)
+	s.Add("Green", PriorityLow)
+	if result := Search(s.tasks, "l"); len(result) != 2 {
+		t.Error("Search(l) debería retornar 2 registros")
+	}
+}
+
 // TestFilter asegura el correcto comportamiento de las funciones utilitarias
 // de segmentación por propiedades físicas de la tarea (estado y criticidad)
 func TestFilter(t *testing.T) {
@@ -80,7 +94,7 @@ func TestFilter(t *testing.T) {
 		t.Errorf("esperaba 1 completada, got %d", len(done))
 	}
 
-	high := ByPriority(s.GetAll(), PriorityHigh)
+	high, _ := ByPriority(s.GetAll(), PriorityHigh)
 	if len(high) != 1 {
 		t.Errorf("esperaba 1 alta prioridad, got %d", len(high))
 	}

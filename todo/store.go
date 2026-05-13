@@ -12,6 +12,8 @@ var (
 	ErrNotFound = errors.New("Task not found")
 	// Se retorna al intentar crear una tarea sin texto en el título
 	ErrEmptyTitle = errors.New("Title cannot be empty")
+	// Se retorna al intentar crear una tarea con una prioridad no reconocida
+	ErrUnknownPriority = errors.New("Unknown Priority")
 )
 
 // Store gestiona el ciclo de vida y almacenamiento de las tareas en memoria
@@ -30,6 +32,9 @@ func New() *Store {
 func (s *Store) Add(title string, p Priority) (Task, error) {
 	if title == "" {
 		return Task{}, ErrEmptyTitle
+	}
+	if !p.IsValid() {
+		return Task{}, ErrUnknownPriority
 	}
 	t := Task{
 		Id:        s.nextId,

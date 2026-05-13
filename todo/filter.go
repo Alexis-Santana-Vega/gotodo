@@ -16,14 +16,17 @@ func ByStatus(tasks []Task, done bool) []Task {
 
 // ByPriority filtra la lista de tareas y retorna únicamente aquellas que coinciden con la prioridad solicitada
 // Returna un slice vacío (no nulo) si ninguna tarea cumple con el criterio
-func ByPriority(tasks []Task, p Priority) []Task {
+func ByPriority(tasks []Task, p Priority) ([]Task, error) {
 	result := []Task{}
+	if !p.IsValid() {
+		return result, ErrUnknownPriority
+	}
 	for _, t := range tasks {
 		if t.Priority == p {
 			result = append(result, t)
 		}
 	}
-	return result
+	return result, nil
 }
 
 // Search busca y retorna las tareas cuyo título contenga la subcadena provista en query
